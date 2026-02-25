@@ -22,14 +22,14 @@ export function Sidebar() {
   ];
 
   return (
-    <aside className="w-64 bg-stone-50 h-full border-r border-stone-200 flex flex-col">
+    <aside className="w-64 bg-[#F7F7F5] h-full border-r border-stone-200 flex flex-col rounded-none">
       {/* Workspace Header */}
-      <div className="p-4 flex items-center justify-between hover:bg-stone-100 cursor-pointer transition-colors duration-200">
+      <div className="p-4 flex items-center justify-between hover:bg-stone-100 cursor-pointer transition-colors duration-200 border-b border-stone-200">
         <div className="flex items-center gap-2">
-          <div className="w-6 h-6 rounded bg-stone-200 flex items-center justify-center text-xs font-semibold">
+          <div className="w-6 h-6 bg-stone-800 text-white flex items-center justify-center text-xs font-serif rounded-none">
             J
           </div>
-          <span className="font-medium text-sm text-stone-800">
+          <span className="font-serif text-sm tracking-wide text-stone-800">
             João's Workspace
           </span>
         </div>
@@ -37,7 +37,7 @@ export function Sidebar() {
 
       {/* Pages List */}
       <div className="flex-1 overflow-y-auto px-2 py-4">
-        <div className="text-xs font-medium text-stone-400 px-2 mb-2 uppercase tracking-wider">
+        <div className="text-[10px] font-mono text-stone-400 px-2 mb-3 uppercase tracking-widest">
           Private Pages
         </div>
 
@@ -45,7 +45,7 @@ export function Sidebar() {
           {mockPages.map((page) => (
             <button
               key={page.id}
-              className="w-full flex items-center gap-2 px-2 py-1.5 text-sm text-stone-800 hover:bg-stone-100 rounded-md transition-colors text-left"
+              className="w-full flex items-center gap-2 px-2 py-1.5 text-sm font-mono text-stone-600 hover:text-stone-900 hover:bg-stone-100 rounded-none transition-colors text-left"
             >
               <span className="text-stone-400">{page.icon}</span>
               <span className="truncate">{page.title}</span>
@@ -56,11 +56,11 @@ export function Sidebar() {
 
       {/* Footer Actions */}
       <div className="p-2 border-t border-stone-200">
-        <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm text-stone-800 hover:bg-stone-100 rounded-md transition-colors text-left">
+        <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm font-mono text-stone-500 hover:text-stone-800 hover:bg-stone-100 rounded-none transition-colors text-left">
           <Plus className="w-4 h-4 text-stone-400" />
           <span>New Page</span>
         </button>
-        <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm text-stone-800 hover:bg-stone-100 rounded-md transition-colors text-left">
+        <button className="w-full flex items-center gap-2 px-2 py-1.5 text-sm font-mono text-stone-500 hover:text-stone-800 hover:bg-stone-100 rounded-none transition-colors text-left">
           <Settings className="w-4 h-4 text-stone-400" />
           <span>Settings</span>
         </button>

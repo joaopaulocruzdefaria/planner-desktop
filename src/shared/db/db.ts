@@ -2,11 +2,45 @@ import Database from "@tauri-apps/plugin-sql";
 
 const DB_NAME = "sqlite:planner.db";
 
+// Check if we are running inside the Tauri window
+const isTauri =
+  typeof window !== "undefined" && "__TAURI_INTERNALS__" in window;
+
+// A simple mock class to prevent the UI from crashing in a standard web browser
+class MockDatabase {
+  async execute() {
+    return [];
+  }
+  async select() {
+    return [];
+  }
+}
+
+let dbInstance: Database | MockDatabase | null = null;
+
 export async function getDb() {
-  return await Database.load(DB_NAME);
+  if (!isTauri) {
+    if (!dbInstance) {
+      console.warn(
+        "Tauri API not found. Running in Browser mode with Mock DB.",
+      );
+      dbInstance = new MockDatabase();
+    }
+    return dbInstance as unknown as Database;
+  }
+
+  if (!dbInstance) {
+    dbInstance = await Database.load(DB_NAME);
+  }
+  return dbInstance as Database;
 }
 
 export async function initDb() {
+  if (!isTauri) {
+    console.log("Mock Database initialized successfully (Browser Mode).");
+    return;
+  }
+
   const db = await getDb();
 
   await db.execute(`
