@@ -52,17 +52,38 @@ export async function initDb() {
   `);
 
   await db.execute(`
+    CREATE TABLE IF NOT EXISTS folders (
+      id TEXT PRIMARY KEY,
+      workspace_id TEXT NOT NULL,
+      name TEXT NOT NULL,
+      created_at INTEGER NOT NULL,
+      FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE
+    )
+  `);
+
+  await db.execute(`
     CREATE TABLE IF NOT EXISTS pages (
       id TEXT PRIMARY KEY,
       workspace_id TEXT NOT NULL,
+      folder_id TEXT,
       title TEXT NOT NULL,
       icon TEXT,
       cover TEXT,
       created_at INTEGER NOT NULL,
       updated_at INTEGER NOT NULL,
-      FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE
+      FOREIGN KEY (workspace_id) REFERENCES workspaces(id) ON DELETE CASCADE,
+      FOREIGN KEY (folder_id) REFERENCES folders(id) ON DELETE SET NULL
     )
   `);
+
+  // Try to alter the table for existing databases (SQLite doesn't support IF NOT EXISTS on ALTER)
+  try {
+    await db.execute(
+      "ALTER TABLE pages ADD COLUMN folder_id TEXT REFERENCES folders(id) ON DELETE SET NULL",
+    );
+  } catch (e) {
+    // Column likely already exists
+  }
 
   await db.execute(`
     CREATE TABLE IF NOT EXISTS blocks (

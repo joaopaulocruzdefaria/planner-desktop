@@ -5,9 +5,17 @@ export interface Workspace {
   createdAt: number;
 }
 
+export interface Folder {
+  id: string;
+  workspaceId: string;
+  name: string;
+  createdAt: number;
+}
+
 export interface Page {
   id: string;
   workspaceId: string;
+  folderId?: string | null;
   title: string;
   icon?: string;
   cover?: string;
